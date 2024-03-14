@@ -1,1 +1,7 @@
-CREATE 
+
+Create table PERSONAS1 (
+ rut char(10) not null,
+ nombre VARCHAR(50) not null,
+ edad char(2) not null,
+ direccion VARCHAR(100) NOT NULL
+);
