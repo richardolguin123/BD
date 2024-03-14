@@ -8,3 +8,5 @@ Create table PERSONAS1 (
  edad char(2) not null,
  direccion VARCHAR(100) NOT NULL
 );
+
+/COPY personas1 from '/ruta/archivo' WITH CSV DELIMITER '|';
