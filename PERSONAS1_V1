@@ -1,3 +1,6 @@
+CREATE DATABASE actividad1;
+
+\c actividad1
 
 Create table PERSONAS1 (
  rut char(10) not null,
