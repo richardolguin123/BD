@@ -9,4 +9,7 @@ Create table PERSONAS1 (
  direccion VARCHAR(100) NOT NULL
 );
 
-/COPY personas1 from '/ruta/archivo' WITH CSV DELIMITER '|';
+COPY PERSONAS1 (RUT, Nombre, Edad, Dirección)
+FROM '/ruta/al/archivo/diezmil'
+DELIMITER '|';
+
