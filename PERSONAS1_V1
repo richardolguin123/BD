@@ -21,3 +21,4 @@ ls -ld/direccion del archivo/
 ls -ld /home/richard/Escritorio/act1/diezmil;
 -rw-rw-rw- 1 richard sudo 1714900 mar 14 17:55 /home/richard/Escritorio/act1/diezmil
 
+chmod u+x /home/richard/Escritorio/act1/diezmil
