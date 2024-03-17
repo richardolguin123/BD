@@ -10,26 +10,8 @@ Create table PERSONAS1 (
 );
 
 COPY PERSONAS1 (RUT, Nombre, Edad, Dirección)
-FROM '/ruta/al/archivo/diezmil'
+FROM '/tmp/diezmil'
 DELIMITER '|';
-
-
-richard@richard-Uni:~/Escritorio$ sudo -u postgres psql
-[sudo] contraseña para richard: 
-could not change directory to "/home/richard/Escritorio": Permiso denegado
-psql (14.11 (Ubuntu 14.11-0ubuntu0.22.04.1))
-Type "help" for help.
-
-postgres=# \c actividad1
-You are now connected to database "actividad1" as user "postgres".
-actividad1=# \COPY personas1 from '/home/richard/Escritorio/act1/diezmil' WITH CSV DELIMITER '|';
-/home/richard/Escritorio/act1/diezmil: Permiso denegado
-
-
-ls -ld /home/richard/Escritorio/act1/diezmil
-
-chmod +rx /home/richard/Escritorio/act1
-chmod +rx /home/richard/Escritorio
 
 mv /home/richard/Escritorio/act1/diezmil /tmp/
 
