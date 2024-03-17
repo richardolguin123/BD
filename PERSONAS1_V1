@@ -14,14 +14,14 @@ FROM '/ruta/al/archivo/diezmil'
 DELIMITER '|';
 
 
-chmod +r /ruta/al/archivo/diezmil
+richard@richard-Uni:~/Escritorio$ sudo -u postgres psql
+[sudo] contraseña para richard: 
+could not change directory to "/home/richard/Escritorio": Permiso denegado
+psql (14.11 (Ubuntu 14.11-0ubuntu0.22.04.1))
+Type "help" for help.
 
-ls -ld/direccion del archivo/
-
-ls -ld /home/richard/Escritorio/act1/diezmil;
--rw-rw-rw- 1 richard sudo 1714900 mar 14 17:55 /home/richard/Escritorio/act1/diezmil
-
-chmod u+x /home/richard/Escritorio/act1/diezmil
-
--rwxrwxrwx 1 richard sambashare 1714900 mar 14 17:55 /home/richard/Escritorio/act1/diezmil
+postgres=# \c actividad1
+You are now connected to database "actividad1" as user "postgres".
+actividad1=# \COPY personas1 from '/home/richard/Escritorio/act1/diezmil' WITH CSV DELIMITER '|';
+/home/richard/Escritorio/act1/diezmil: Permiso denegado
 
