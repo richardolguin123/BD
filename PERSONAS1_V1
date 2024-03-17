@@ -18,7 +18,6 @@ COPY PERSONAS1 (RUT, Nombre, Edad, Direccion) FROM '/tmp/diezmil' DELIMITER '|';
 -rwxr-xr-x 1 postgres postgres 1714900 mar 14 17:55 diezmil
 
 
-
-
+chmod +r /home/richard/Escritorio/act1/diezmil
 
 
