@@ -13,3 +13,5 @@ COPY PERSONAS1 (RUT, Nombre, Edad, Dirección)
 FROM '/ruta/al/archivo/diezmil'
 DELIMITER '|';
 
+
+chmod +r /ruta/al/archivo/diezmil
