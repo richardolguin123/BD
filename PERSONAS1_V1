@@ -11,11 +11,11 @@ Create table PERSONAS1 (
 
 \q
 
-mv /home/richard/Escritorio/diezmil /tmp/
+mv /home/richard/Escritorio/diezmil /tmp/    --// SE MUEVE A TMP YA QUE ESTA CARPETA TIENE LOS PERMISOS ADECUADOS 
 
 COPY PERSONAS1 (RUT, Nombre, Edad, Direccion) FROM '/tmp/diezmil' DELIMITER '|';
 
-
+-rwxr-xr-x 1 postgres postgres 1714900 mar 14 17:55 diezmil
 
 
 
