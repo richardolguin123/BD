@@ -15,3 +15,7 @@ DELIMITER '|';
 
 
 chmod +r /ruta/al/archivo/diezmil
+
+ls -ld/direccion del archivo/
+
+
