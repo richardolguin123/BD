@@ -25,3 +25,16 @@ You are now connected to database "actividad1" as user "postgres".
 actividad1=# \COPY personas1 from '/home/richard/Escritorio/act1/diezmil' WITH CSV DELIMITER '|';
 /home/richard/Escritorio/act1/diezmil: Permiso denegado
 
+
+ls -ld /home/richard/Escritorio/act1/diezmil
+
+chmod +rx /home/richard/Escritorio/act1
+chmod +rx /home/richard/Escritorio
+
+mv /home/richard/Escritorio/act1/diezmil /tmp/
+
+\COPY personas1 FROM '/tmp/diezmil' WITH CSV DELIMITER '|';
+
+
+
+
