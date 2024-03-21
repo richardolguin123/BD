@@ -2,17 +2,17 @@ CREATE DATABASE actividad1;
 
 \c actividad1
 
-Create table PERSONAS1 (
- rut char(10) not null,
- nombre VARCHAR(50) not null,
- edad char(2) not null,
- direccion VARCHAR(100) NOT NULL
+CREATE TABLE PERSONAS1 (
+    RUT BIGINT,
+    Nombre VARCHAR(50),
+    Edad SMALLINT CHECK (Edad >= 0 AND Edad <= 99),
+    Direccion VARCHAR(100)
 );
 
-COPY PERSONAS1 (RUT, Nombre, Edad, Direccion) 
-FROM '/home/kutty/Descargas/diezmil' 
-DELIMITER '|';
-ERROR:  value too long for type character varying(50) ---> Los nombres superan el lìmite de caracteres
+COPY PERSONAS1 (RUT, Nombre, Edad, Direccion)
+FROM '/home/kutty/Descargas/diezmil_sin_espacios.csv'
+DELIMITER '|';  ---> SE USÒ FUNCIÒN SED PARA QUITAR ESPACIOS DEL ARCHIVO 'DIEZMIL'
+
 
 
 
