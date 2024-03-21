@@ -13,6 +13,28 @@ COPY PERSONAS1 (RUT, Nombre, Edad, Direccion)
 FROM '/home/kutty/Descargas/diezmil_sin_espacios.csv'
 DELIMITER '|';  ---> SE USÒ FUNCIÒN SED PARA QUITAR ESPACIOS DEL ARCHIVO 'DIEZMIL'
 
+\timing                        
+SELECT COUNT(*) FROM PERSONAS1;
+CREATE INDEX personas1_rut_index ON PERSONAS1 (RUT);
+Time: 71,263 ms
+
+CREATE TABLE PERSONAS2 (
+    RUT BIGINT PRIMARY KEY,
+    Nombre VARCHAR(50),
+    Edad SMALLINT,
+    Direccion VARCHAR(100)
+);
+
+COPY PERSONAS2 (RUT, Nombre, Edad, Direccion)
+FROM '/home/kutty/Descargas/diezmil_sin_espacios.csv'
+DELIMITER '|';
+ERROR:  duplicate key value violates unique constraint "personas2_pkey"
+DETAIL:  Key (rut)=(6551137333) already exists.
+CONTEXT:  COPY personas2, line 3888
+
+
+
+
 
 
 
