@@ -8,7 +8,10 @@ CREATE TABLE PERSONAS1 (
     Edad SMALLINT CHECK (Edad >= 0 AND Edad <= 99),
     Direccion VARCHAR(100)
 );
-
+--------------
+sed 's/ //g' /home/kutty/Descargas/diezmil > /home/kutty/Descargas/diezmil_sin_espacios.csv
+COMANDO SED PARA QUITAR ESPACIOS
+-------------
 COPY PERSONAS1 (RUT, Nombre, Edad, Direccion)
 FROM '/home/kutty/Descargas/diezmil_sin_espacios.csv'
 DELIMITER '|';  ---> SE USÒ FUNCIÒN SED PARA QUITAR ESPACIOS DEL ARCHIVO 'DIEZMIL'
@@ -56,7 +59,8 @@ ON CONFLICT DO NOTHING;  ------->VOLVEMOS A INSERTAR EN PERSONAS2 LOS DATOS UNIC
 DROP TABLE temp_personas2;
 
 ALTER TABLE PERSONAS1 RENAME TO temp_personas1;
-CREATE TEMP TABLE PERSONAS1 (
+
+CREATE TABLE PERSONAS1 (
     RUT bigint,
     Nombre varchar(50),
     Edad smallint,
@@ -77,9 +81,18 @@ TRUNCATE TABLE PERSONAS2;
 
 DROP INDEX personas1_rut_index;
 
+sed 's/ //g' /home/kutty/millones50 > /home/kutty/Descargas/millones50_sin_espacios.csv
+
+OPY personas1 (RUT, Nombre, Edad, Direccion)
+FROM '/home/kutty/Descargas/millones50_sin_espacios.csv'
+DELIMITER '|';
+COPY 50000000
+Time: 1041111,870 ms (17:21,112)
+
+CREATE INDEX
+Time: 446365,994 ms (07:26,366)
 
 -------------------------------------------------------------------
-sort -u diezmil_sin_espacios.cvs > diezmil_sin_duplicados.csv
 
 
 
