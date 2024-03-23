@@ -39,6 +39,7 @@ CONTEXT:  COPY personas2, line 3888
 
 
 
+awk '!seen[$0]++' archivo.csv > archivo_sin_duplicados.csv
 
 
 
