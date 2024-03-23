@@ -13,10 +13,15 @@ COPY PERSONAS1 (RUT, Nombre, Edad, Direccion)
 FROM '/home/kutty/Descargas/diezmil_sin_espacios.csv'
 DELIMITER '|';  ---> SE USÒ FUNCIÒN SED PARA QUITAR ESPACIOS DEL ARCHIVO 'DIEZMIL'
 
-\timing                        
+\timing on                      
 SELECT COUNT(*) FROM PERSONAS1;
+
+\timing                      
+SELECT COUNT(*) FROM PERSONAS1; 
+
 CREATE INDEX personas1_rut_index ON PERSONAS1 (RUT);
-Time: 71,263 ms
+Time: 71,263 ms ---- Time: 24,017 ms
+
 
 CREATE TABLE PERSONAS2 (
     RUT BIGINT PRIMARY KEY,
