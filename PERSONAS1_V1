@@ -37,7 +37,25 @@ ERROR:  duplicate key value violates unique constraint "personas2_pkey"
 DETAIL:  Key (rut)=(6551137333) already exists.
 CONTEXT:  COPY personas2, line 3888
 
+CREATE TEMP TABLE temp_personas2 (
+    RUT BIGINT,
+    Nombre VARCHAR(50),
+    Edad SMALLINT,
+    Direccion VARCHAR(100)
+);     ------->SE CREA TABLA TEMPORAL
 
+COPY temp_personas2 (RUT, Nombre, Edad, Direccion)
+FROM '/home/kutty/Descargas/diezmil_sin_espacios.csv'
+DELIMITER '|';    ----->INSERTAMOS EL ARCHIVO
+
+INSERT INTO PERSONAS2 (RUT, Nombre, Edad, Direccion)
+SELECT DISTINCT ON (RUT) RUT, Nombre, Edad, Direccion
+FROM temp_personas2
+ON CONFLICT DO NOTHING;  ------->VOLVEMOS A INSERTAR EN PERSONAS2 LOS DATOS UNICOS, Y ASI TAMBIÈN CON PERSONAS1
+
+DROP TABLE temp_personas2;
+
+-------------------------------------------------------------------
 sort -u diezmil_sin_espacios.cvs > diezmil_sin_duplicados.csv
 
 
