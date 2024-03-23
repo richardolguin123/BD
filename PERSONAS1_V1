@@ -72,6 +72,12 @@ ON CONFLICT DO NOTHING;
 
 DROP TABLE temp_personas1;
 
+TRUNCATE TABLE PERSONAS1;
+TRUNCATE TABLE PERSONAS2;
+
+DROP INDEX personas1_rut_index;
+
+
 -------------------------------------------------------------------
 sort -u diezmil_sin_espacios.cvs > diezmil_sin_duplicados.csv
 
