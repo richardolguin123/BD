@@ -51,9 +51,26 @@ DELIMITER '|';    ----->INSERTAMOS EL ARCHIVO
 INSERT INTO PERSONAS2 (RUT, Nombre, Edad, Direccion)
 SELECT DISTINCT ON (RUT) RUT, Nombre, Edad, Direccion
 FROM temp_personas2
-ON CONFLICT DO NOTHING;  ------->VOLVEMOS A INSERTAR EN PERSONAS2 LOS DATOS UNICOS, Y ASI TAMBIÈN CON PERSONAS1
+ON CONFLICT DO NOTHING;  ------->VOLVEMOS A INSERTAR EN PERSONAS2 LOS DATOS UNICOS
 
 DROP TABLE temp_personas2;
+
+ALTER TABLE PERSONAS1 RENAME TO temp_personas1;
+CREATE TEMP TABLE PERSONAS1 (
+    RUT bigint,
+    Nombre varchar(50),
+    Edad smallint,
+    Direccion varchar(100)
+);
+
+CREATE INDEX personas1_rut_index ON PERSONAS1 (RUT);
+
+INSERT INTO PERSONAS1 (RUT, Nombre, Edad, Direccion)
+SELECT DISTINCT ON (RUT) RUT, Nombre, Edad, Direccion
+FROM temp_personas1
+ON CONFLICT DO NOTHING; 
+
+DROP TABLE temp_personas1;
 
 -------------------------------------------------------------------
 sort -u diezmil_sin_espacios.cvs > diezmil_sin_duplicados.csv
