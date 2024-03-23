@@ -38,12 +38,7 @@ DETAIL:  Key (rut)=(6551137333) already exists.
 CONTEXT:  COPY personas2, line 3888
 
 
-
-awk '!seen[$0]++' archivo.csv > archivo_sin_duplicados.csv
-
-$ 200~awk '!seen[$0]++' diezmil_sin_espacios.cvs > diezmil_sin_duplicados.csv;
-200~awk: orden no encontrada
-
+sort -u diezmil_sin_espacios.cvs > diezmil_sin_duplicados.csv
 
 
 
