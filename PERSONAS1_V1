@@ -83,14 +83,50 @@ DROP INDEX personas1_rut_index;
 
 sed 's/ //g' /home/kutty/millones50 > /home/kutty/Descargas/millones50_sin_espacios.csv
 
-OPY personas1 (RUT, Nombre, Edad, Direccion)
-FROM '/home/kutty/Descargas/millones50_sin_espacios.csv'
+COPY personas1 (RUT, Nombre, Edad, Direccion)
+FROM '/tmp/millones50_sin_espacios.csv'
 DELIMITER '|';
-COPY 50000000
-Time: 1041111,870 ms (17:21,112)
+COPY 6110666
+Time: 48368,811 ms (00:48,369)
 
+CREATE INDEX personas1_rut_index ON PERSONAS1 (RUT);
+Time: 22451,249 ms (00:22,451)
+
+COPY temp (RUT, Nombre, Edad, Direccion)
+FROM '/tmp/millones50_sin_espacios.csv'
+DELIMITER '|';
+COPY 6110666
+Time: 21583,877 ms (00:21,584)
+
+INSERT INTO PERSONAS2 (RUT, Nombre, Edad, Direccion)
+SELECT DISTINCT ON (RUT) RUT, Nombre, Edad, Direccion
+FROM temp
+ON CONFLICT DO NOTHING; 
+INSERT 0 6108715
+Time: 118392,829 ms (01:58,393)
+
+ALTER TABLE PERSONAS1 RENAME TO temp_personas1;
+
+CREATE table personas1(
+    RUT bigint,
+    Nombre varchar(50),
+    Edad smallint,
+    Direccion varchar(100)
+);
+
+INSERT INTO personas1 (RUT, Nombre, Edad, Direccion)
+SELECT DISTINCT ON (RUT) RUT, Nombre, Edad, Direccion
+FROM temp_personas1
+ON CONFLICT DO NOTHING; 
+INSERT 0 6108715
+Time: 160349,043 ms (02:40,349)
+
+DROP TABLE temp_personas1;
+
+CREATE INDEX personas1_rut_index ON PERSONAS1 (RUT);
 CREATE INDEX
-Time: 446365,994 ms (07:26,366)
+Time: 7240,096 ms (00:07,240)
+
 
 -------------------------------------------------------------------
 
