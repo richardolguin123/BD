@@ -81,6 +81,9 @@ TRUNCATE TABLE PERSONAS2;
 
 DROP INDEX personas1_rut_index;
 
+sudo usermod -aG docker $USER
+
+
 docker run -e name=millones50 -e lines=50000000
 -v $(pwd):/app/mount/ ensena/bdd-generator
 
