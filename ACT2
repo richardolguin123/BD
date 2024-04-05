@@ -1,0 +1,4 @@
+
+actividad1=# CREATE temp TABLE ruts (
+    RUT BIGINT 
+);
