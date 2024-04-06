@@ -6,3 +6,26 @@ CREATE TABLE ruts (RUT BIGINT);
 Select nombre,direccion from personas1 where rut=(Select rut from ruts limit 1);
 
 Select nombre,direccion from personas1 where rut=(Select rut from ruts);
+
+
+------GPT-------
+2)
+\timing on
+SELECT Nombre, Direccion
+FROM PERSONAS1
+WHERE RUT = (SELECT MIN(RUT) FROM 50mil);
+
+\timing on
+COPY (
+    SELECT Nombre, Direccion
+    FROM PERSONAS1
+    WHERE RUT IN (SELECT RUT FROM 50mil)
+) TO '/ruta/al/archivo/resultados.csv' WITH CSV HEADER;
+
+EXPLAIN SELECT Nombre, Direccion
+FROM PERSONAS1
+WHERE RUT = (SELECT MIN(RUT) FROM 50mil);
+
+EXPLAIN SELECT Nombre, Direccion
+FROM PERSONAS1
+WHERE RUT IN (SELECT RUT FROM 50mil);
