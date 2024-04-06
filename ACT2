@@ -31,7 +31,7 @@ SET Edad = CASE
                WHEN (Edad + 10) <= 99 THEN Edad + 10
                ELSE 0
            END
-WHERE RUT IN (SELECT RUT FROM "50mil" WHERE RUT % 2 <> 0);
+WHERE RUT IN (SELECT RUT FROM ruts WHERE RUT % 2 <> 0);
 
 BEGIN
 
