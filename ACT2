@@ -1,6 +1,8 @@
 
-actividad1=# CREATE temp TABLE ruts (RUT BIGINT);
+CREATE TABLE ruts (RUT BIGINT);
 
-actividad1=# \COPY ruts (RUT) FROM '/tmp/50mil' DELIMITER ','; ---- meter ruts a tabla temporal
+\COPY ruts (RUT) FROM '/tmp/50mil' DELIMITER ','; ---- meter ruts a tabla
 
 Select nombre,direccion from personas1 where rut=(Select rut from ruts limit 1);
+
+Select nombre,direccion from personas1 where rut=(Select rut from ruts);
