@@ -33,6 +33,26 @@ SET Edad = CASE
            END
 WHERE RUT IN (SELECT RUT FROM ruts WHERE RUT % 2 <> 0);
 
+4)
+Select nombre,direccion from personas2 where rut=(Select rut from ruts limit 1);
+
+Select nombre,direccion from personas2 where rut= 88901377;
+
+COPY (
+    SELECT personas2.nombre, personas2.direccion 
+    FROM personas2 
+    JOIN ruts ON personas2.rut = ruts.rut
+) TO '/tmp/ResultadoP4.csv' WITH CSV HEADER;
+
+DELETE FROM PERSONAS2
+WHERE RUT IN (SELECT ruts.RUT FROM ruts WHERE ruts.rut % 2 = 0);
+
+UPDATE PERSONAS2
+SET Edad = CASE
+               WHEN (Edad + 10) <= 99 THEN Edad + 10
+               ELSE 0
+           END
+WHERE RUT IN (SELECT RUT FROM ruts WHERE RUT % 2 <> 0);
 
 BEGIN
 
