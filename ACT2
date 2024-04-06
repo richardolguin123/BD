@@ -33,6 +33,7 @@ SET Edad = CASE
            END
 WHERE RUT IN (SELECT RUT FROM ruts WHERE RUT % 2 <> 0);
 
+
 BEGIN
 
 ROLLBACK -- VOLVER
