@@ -3,6 +3,9 @@ CREATE TABLE ruts (RUT BIGINT);
 
 \COPY ruts (RUT) FROM '/tmp/50mil' DELIMITER ','; ---- meter ruts a tabla
 
+
+
+2)
 Select nombre,direccion from personas1 where rut=(Select rut from ruts limit 1);
 
 Select nombre,direccion from personas1 where rut= 88901377;
@@ -17,5 +20,17 @@ COPY (
     FROM personas1 
     JOIN ruts ON personas1.rut = ruts.rut
 ) TO '/tmp/ResultadoP2.csv' WITH CSV HEADER;
+
+3)
+DELETE FROM PERSONAS1
+WHERE RUT IN (SELECT RUT FROM "50mil" WHERE RUT % 10 = 0);
+
+UPDATE PERSONAS1
+SET Edad = CASE
+               WHEN (Edad + 10) <= 99 THEN Edad + 10
+               ELSE 0
+           END
+WHERE RUT IN (SELECT RUT FROM "50mil" WHERE RUT % 10 <> 0);
+
 
 
