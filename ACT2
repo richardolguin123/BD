@@ -13,7 +13,8 @@ Select nombre,direccion from personas1 where rut=(Select rut from ruts);
 \timing on
 SELECT Nombre, Direccion
 FROM PERSONAS1
-WHERE RUT = (SELECT MIN(RUT) FROM 50mil);
+WHERE RUT IN (SELECT RUT FROM 50mil LIMIT 1);
+
 
 \timing on
 COPY (
