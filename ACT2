@@ -5,28 +5,17 @@ CREATE TABLE ruts (RUT BIGINT);
 
 Select nombre,direccion from personas1 where rut=(Select rut from ruts limit 1);
 
-Select nombre,direccion from personas1 where rut=(Select rut from ruts);
+Select nombre,direccion from personas1 where rut= 88901377;
 
-
-------GPT-------
-2)
-\timing on
-SELECT Nombre, Direccion
-FROM PERSONAS1
-WHERE RUT IN (SELECT RUT FROM 50mil LIMIT 1);
-
-
-\timing on
 COPY (
-    SELECT Nombre, Direccion
-    FROM PERSONAS1
-    WHERE RUT IN (SELECT RUT FROM 50mil)
-) TO '/ruta/al/archivo/resultados.csv' WITH CSV HEADER;
+Select nombre,direccion from personas1 where rut=(Select rut from ruts) 
+) TO '/tmp/ResultadoP2.csv' WITH CSV HEADER;
+-- al intentar este codgio se genera un error de que existe mas de una fila en la expresion --
 
-EXPLAIN SELECT Nombre, Direccion
-FROM PERSONAS1
-WHERE RUT = (SELECT MIN(RUT) FROM 50mil);
+COPY (
+    SELECT personas1.nombre, personas1.direccion 
+    FROM personas1 
+    JOIN ruts ON personas1.rut = ruts.rut
+) TO '/tmp/ResultadoP2.csv' WITH CSV HEADER;
 
-EXPLAIN SELECT Nombre, Direccion
-FROM PERSONAS1
-WHERE RUT IN (SELECT RUT FROM 50mil);
+
