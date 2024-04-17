@@ -1,0 +1,27 @@
+CREATE TABLE Clientes (
+    Codigo SERIAL PRIMARY KEY,
+    Rut BIGINT,
+    Nombre VARCHAR(50),
+    Direccion VARCHAR(100)
+);
+
+INSERT INTO Clientes (Rut, Nombre, Direccion)
+SELECT Rut, Nombre, Direccion
+FROM Personas1
+LIMIT 5000000;
+
+CREATE TABLE PRODUCTOS (
+    Codigo SERIAL PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Precio INT
+);
+
+CREATE TABLE Ventas (
+    Codigo_cliente INT,
+    Codigo_producto INT,
+    Cantidad INT,
+    Fecha_venta DATE,
+    FOREIGN KEY (Codigo_cliente) REFERENCES Clientes(Codigo),
+    FOREIGN KEY (Codigo_producto) REFERENCES PRODUCTOS(Codigo)
+);
+
