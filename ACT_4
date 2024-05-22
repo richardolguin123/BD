@@ -1,0 +1,71 @@
+import pandas as pd
+from elasticsearch import Elasticsearch
+from elasticsearch.helpers import bulk
+import json
+import urllib3
+
+# Suprimir advertencias de solicitudes HTTPS no verificadas
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# Configuración del cliente de Elasticsearch
+es = Elasticsearch(
+    cloud_id='Tarea_4:dXMtZWFzdC0yLmF3cy5lbGFzdGljLWNsb3VkLmNvbTo0NDMkZjc2YmQ2MWI4ODZmNDU5MGIwNDhhNDM3MTA0ZDEyMzQkNzA4N2I0ZWI0YTE2NDFmYmJmZTI0OTAxN2NjZTMyMmY=',
+    basic_auth=('elastic', 'gbPIbpBkkObjJ79ig4S3MEfe'),
+    verify_certs=False
+)
+
+# Directorio que contiene los archivos CSV
+directorio = 'C:\\songs'
+
+# Lista de archivos CSV
+archivos_csv = [
+    'alternativo-indie.csv', 'axe.csv', 'bachata.csv', 'blues.csv', 'bolero.csv', 
+    'bossa-nova.csv', 'brega.csv', 'classico.csv', 'corridos.csv', 'country.csv', 
+    'cuarteto.csv', 'cumbia.csv', 'dance.csv', 'dancehall.csv', 'disco.csv', 
+    'eletronica.csv', 'emocore.csv', 'fado.csv', 'flamenco-bulerias.csv', 'folk.csv', 
+    'forro.csv', 'funk.csv', 'gotico.csv', 'grunge.csv', 'guarania.csv', 'hard-rock.csv', 
+    'hardcore.csv', 'heavy-metal.csv', 'hip-hop-rap.csv', 'house.csv', 'industrial.csv', 
+    'infantil.csv', 'instrumental.csv', 'j-popj-rock.csv', 'jazz.csv', 'jovem-guarda.csv', 
+    'k-pop.csv', 'mambo.csv', 'marchas-hinos.csv', 'mariachi.csv', 'merengue.csv', 
+    'metal.csv', 'mpb.csv', 'musica-andina.csv', 'nativista.csv', 'new-wave.csv', 
+    'pagode.csv', 'piseiro.csv', 'pop.csv', 'poprock.csv', 'post-rock.csv', 'power-pop.csv', 
+    'progressivo.csv', 'psicodelia.csv', 'punk-rock.csv', 'ranchera.csv', 'rb.csv', 
+    'reggae.csv', 'reggaeton.csv', 'regional.csv', 'rock-alternativo.csv', 'rock-roll.csv', 
+    'rock.csv', 'rockabilly.csv', 'romantico.csv', 'salsa.csv', 'samba-enredo.csv', 
+    'samba.csv', 'sertanejo.csv', 'ska.csv', 'soft-rock.csv', 'soul.csv', 'surf-music.csv', 
+    'tango.csv', 'tecnopop.csv', 'test.csv', 'trap.csv', 'trova.csv', 'vallenato.csv', 
+    'velha-guarda.csv', 'world-music.csv', 'zamba.csv', 'zouk.csv'
+]
+
+def process_and_index_csv(file_path, index_name, chunk_size=500):
+    try:
+        # Leer el archivo CSV en chunks
+        for chunk in pd.read_csv(file_path, on_bad_lines='skip', chunksize=chunk_size):
+            # Convertir DataFrame a formato JSON
+            json_records = chunk.to_json(orient='records', lines=True)
+            
+            # Dividir el JSON en líneas individuales
+            records = json_records.strip().split('\n')
+            
+            # Crear acciones para la indexación bulk
+            actions = [
+                {
+                    "_index": index_name,
+                    "_source": json.loads(record)
+                }
+                for record in records
+            ]
+            
+            # Indexar en Elasticsearch
+            success, failed = bulk(es, actions, stats_only=True)
+            print(f'Archivo {file_path}: {success} documentos indexados, {failed} documentos fallidos.')
+        
+    except Exception as e:
+        print(f'Error al procesar el archivo {file_path}: {e}')
+
+# Procesar cada archivo CSV
+for archivo in archivos_csv:
+    ruta_archivo = f'{directorio}\\{archivo}'
+    nombre_indice = archivo.split('.')[0].replace('_', '-')
+    print(f'Procesando el archivo: {ruta_archivo}')
+    process_and_index_csv(ruta_archivo, nombre_indice)
