@@ -1,0 +1,110 @@
+------------------SCRIPT PYTHON PARA GENERAR CSV------------------
+import random
+import csv
+from datetime import datetime, timedelta
+
+# Parámetros
+num_clientes = 5000
+num_productos = 50
+num_ventas_por_cliente = 10
+
+# Generar datos de clientes
+clientes = []
+for i in range(num_clientes):
+    clientes.append({
+        'id': i,
+        'name': f'Cliente{i}',
+        'rut': f'{i}-{random.randint(0, 9)}'
+    })
+
+# Generar datos de productos con precios enteros
+productos = []
+for i in range(num_productos):
+    productos.append({
+        'id': i,
+        'name': f'Producto{i}',
+        'codigo': f'P{i}',
+        'precio': random.randint(10, 1000)  # Precio del producto (entero)
+    })
+
+# Generar datos de ventas
+ventas = []
+
+# Distribuir las ventas para cada cliente
+for cliente_id in range(num_clientes):
+    inicio_producto = (cliente_id // 1000) * 10
+    for producto_id in range(inicio_producto, inicio_producto + num_ventas_por_cliente):
+        cantidad = productos[producto_id]['precio']
+        fecha = datetime(2023, 1, 1) + timedelta(days=random.randint(0, 364))
+        ventas.append({
+            'cliente_id': cliente_id,
+            'producto_id': producto_id,
+            'monto': cantidad,
+            'fecha': fecha.date()
+        })
+
+# Guardar los datos en archivos CSV
+with open('clientes.csv', 'w', newline='') as csvfile:
+    fieldnames = ['id', 'name', 'rut']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    writer.writeheader()
+    for cliente in clientes:
+        writer.writerow(cliente)
+
+with open('productos.csv', 'w', newline='') as csvfile:
+    fieldnames = ['id', 'name', 'codigo', 'precio']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    writer.writeheader()
+    for producto in productos:
+        writer.writerow(producto)
+
+with open('ventas.csv', 'w', newline='') as csvfile:
+    fieldnames = ['cliente_id', 'producto_id', 'monto', 'fecha']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    writer.writeheader()
+    for venta in ventas:
+        writer.writerow(venta)
+
+------------------BD PARA PROBAR CONDICIONES DE TAREA Y CONSULTAS------------------
+CREATE DATABASE tarea5;
+
+\c tarea5
+
+CREATE TABLE clientes (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255),
+    rut VARCHAR(255)
+);
+
+CREATE TABLE productos (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255),
+    codigo VARCHAR(255),
+    precio INT
+);
+
+CREATE TABLE ventas (
+    id SERIAL PRIMARY KEY,
+    cliente_id INT REFERENCES clientes(id),
+    producto_id INT REFERENCES productos(id),
+    monto INT,
+    fecha DATE
+);
+
+
+\copy clientes(id, nombre, rut) FROM 'C:\Users\214592150\Desktop\tarea_5\clientes.csv' CSV HEADER;
+\copy productos(id, nombre, codigo, precio) FROM 'C:\Users\214592150\Desktop\tarea_5\productos.csv' CSV HEADER;
+\copy ventas(cliente_id, producto_id, monto, fecha) FROM 'C:\Users\214592150\Desktop\tarea_5\ventas.csv' CSV HEADER;
+
+---------------------------------------------
+select productos.nombre, count(producto_id)
+FROM productos
+join ventas
+on productos.id=ventas.producto_id
+group by productos.nombre;
+
+---------------------------------------------
+select cliente_id, count(producto_id)
+FROM ventas
+group by cliente_id
+order by cliente_id;
